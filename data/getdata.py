@@ -23,16 +23,18 @@ def get_data_531_basic(prompt, rm, path):
             routine[week] = []
             for pct, rep in zip(percentages[week], reps[week]):
                 weight = round((tm * pct) / 2.5) * 2.5
-                routine[week].append(f"루틴을 만들어드리겠습니다. {weight:.1f}kg X {rep} 이런 식으로 하시면 됩니다. 요일은 편하신 날에 하시되, 주3일은 꼭 하시기 바랍니다.")
+                routine[week].append(f"{weight:.1f}kg X {rep}")
+            
         
         data = OrderedDict()
         data["instruction"] = instruction
         data["input"] = prompt
         data["output"] = routine
-        with open(path, 'w') as f:
-            json.dump(data, f)
+        with open(path, 'w', encoding='UTF-8') as f:
+            json.dump(data, f, ensure_ascii = False)
     
     except TypeError:
+        print("어디선가 타입 에러 발생")
         instruction = "사용자의 1RM 정보를 바탕으로 기본적인 5/3/1 루틴을 생성하세요."
         tms = []
         for r in rm:
@@ -56,15 +58,15 @@ def get_data_531_basic(prompt, rm, path):
             for r in tms:
                 for pct, rep in zip(percentages[week], reps[week]):
                     weight = round((r * pct) / 2.5) * 2.5
-                    routine[week].append(f"루틴을 만들어드리겠습니다. {weight:.1f}kg X {rep} 이런 식으로 하시면 됩니다. 요일은 편하신 날에 하시되, 주 3일은 꼭 하시기 바랍니다.")
+                    routine[week].append(f"{weight:.1f}kg X {rep}")
         
         data = OrderedDict()
         data["instruction"] = instruction
         data["input"] = prompt
         data["output"] = routine
 
-        with open(path, 'w') as f:
-            json.dump(data, f)
+        with open(path, 'w', encoding = 'UTF-8') as f:
+            json.dump(data, f, ensure_ascii = False)
 
 
     return data
