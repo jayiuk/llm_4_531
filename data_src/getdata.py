@@ -1,8 +1,8 @@
 import json
 from collections import OrderedDict
 
-def get_data_531_basic(prompt, rm, path):
-    try:
+def get_data_531_basic(prompt, rm, path, outment1, outment2):
+    if type(rm) == int:
         instruction = "사용자의 1RM 정보를 바탕으로 기본적인 5/3/1 루틴을 생성하세요."
         tm = rm * 0.9
         percentages = {
@@ -18,12 +18,13 @@ def get_data_531_basic(prompt, rm, path):
             "4주차-deload" : ["5", "5", "5"]
         }
         
-        routine = {}
+        routine = [outment1]
+        days = ['1일차', '2일차', '3일차']
         for week in percentages:
-            routine[week] = []
-            for pct, rep in zip(percentages[week], reps[week]):
+            for pct, rep, d in zip(percentages[week], reps[week], days):
                 weight = round((tm * pct) / 2.5) * 2.5
-                routine[week].append(f"{weight:.1f}kg X {rep}")
+                routine.append(f"{week}-{d}:{weight:.1f}kg X {rep}")
+        routine.append(outment2)
             
         
         data = OrderedDict()
@@ -33,8 +34,7 @@ def get_data_531_basic(prompt, rm, path):
         with open(path, 'w', encoding='UTF-8') as f:
             json.dump(data, f, ensure_ascii = False)
     
-    except TypeError:
-        print("어디선가 타입 에러 발생")
+    elif type(rm) == list:
         instruction = "사용자의 1RM 정보를 바탕으로 기본적인 5/3/1 루틴을 생성하세요."
         tms = []
         for r in rm:
@@ -52,13 +52,14 @@ def get_data_531_basic(prompt, rm, path):
             "3주차" : ["5", "3", "1+"],
             "4주차-deload" : ["5", "5", "5"]
         }
-        routine = {}
+        routine = [outment1]
+        days = ['1일차', '2일차', '3일차']
         for week in percentages:
-            routine[week] = []
             for r in tms:
-                for pct, rep in zip(percentages[week], reps[week]):
+                for pct, rep, d in zip(percentages[week], reps[week], days):
                     weight = round((r * pct) / 2.5) * 2.5
-                    routine[week].append(f"{weight:.1f}kg X {rep}")
+                    routine.append(f"{week}-{d}:{weight:.1f}kg X {rep}")
+        routine.append(outment2)
         
         data = OrderedDict()
         data["instruction"] = instruction
@@ -70,6 +71,3 @@ def get_data_531_basic(prompt, rm, path):
 
 
     return data
-
-def get_data_531_7week(prompt, rm, path):
-    tm = rm * 0.9
