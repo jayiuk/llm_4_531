@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 def get_data_531_basic(prompt, rm, path, outment1, outment2):
     if type(rm) == int:
-        instruction = "사용자의 1RM 정보를 바탕으로 기본적인 5/3/1 루틴을 생성하세요."
+        instruction = "사용자가 입력한 한개의 1RM 정보를 바탕으로 기본적인 5/3/1 루틴을 1개 생성하세요."
         tm = rm * 0.9
         percentages = {
             "1주차" : [0.65, 0.75, 0.85],
@@ -35,7 +35,7 @@ def get_data_531_basic(prompt, rm, path, outment1, outment2):
             json.dump(data, f, ensure_ascii = False)
     
     elif type(rm) == list:
-        instruction = "사용자의 1RM 정보를 바탕으로 기본적인 5/3/1 루틴을 생성하세요."
+        instruction = "사용자가 입력한 복수의 1RM을 이용해 기본적인 5/3/1 루틴을 각 1RM 당 하나씩 생성하세요."
         tms = []
         for r in rm:
             tm = r * 0.9
@@ -71,3 +71,13 @@ def get_data_531_basic(prompt, rm, path, outment1, outment2):
 
 
     return data
+
+def getdata_str(instruc, input_ment, output_ment, path):
+    instruction = instruc
+    out = [output_ment]
+    data = OrderedDict()
+    data["instruction"] = instruction
+    data["input"] = input_ment
+    data["output"] = out
+    with open(path, "w", encoding = "utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)

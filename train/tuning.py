@@ -37,7 +37,7 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=4,
     learning_rate = 2e-4,
     logging_steps = 10,
-    num_train_epochs = 50,
+    num_train_epochs = 10,
     save_strategy = "epoch",
     bf16 = True,
     report_to = "none"
@@ -51,7 +51,7 @@ trainer = SFTTrainer(
     tokenizer = tokenizer,
     args = training_args,
     packing = True,
-    max_seq_length = 512,
+    max_seq_length = 1024,
     formatting_func=format_func
 )
 

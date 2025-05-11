@@ -14,7 +14,7 @@ model = PeftModel.from_pretrained(base_model, path)
 tokenizer = AutoTokenizer.from_pretrained(peft_config.base_model_name_or_path)
 tokenizer.pad_token = tokenizer.eos_token
 
-prompt = "5/3/1 루틴이 뭐야?"
+prompt = "5/3/1 운동 루틴에 대해 알려줘"
 
 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 
@@ -28,3 +28,4 @@ output = model.generate(
 )
 
 print(tokenizer.decode(output[0], skip_special_tokens=True))
+print(type(tokenizer.decode(output[0], skip_special_tokens=True)))
