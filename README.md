@@ -63,6 +63,6 @@
 
 ### 사용법
 - distribution 디렉토리로 이동
-- 명령어에 streamlit run app.py
+- streamlit run app.py 명령어 사용
 - 그 후 사용하면 됩니다.
     - 답변 생성 시간이 좀 걸립니다.
